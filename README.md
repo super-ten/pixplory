@@ -16,7 +16,7 @@
 2. 关联项目：`supabase link --project-ref <project-ref>`。
 3. 推送数据库：`supabase db push`。
 4. 导入原始内容：在 SQL Editor 执行 `supabase/seed.sql`，或使用 CLI 的种子流程。
-5. 设置邀请码：`supabase secrets set APP_INVITE_CODE=xmut`。
+5. 在 Supabase 中设置私密邀请码：`supabase secrets set APP_INVITE_CODE=<你的邀请码>`。不要把实际邀请码提交到公开仓库。
 6. 部署函数：
    - `supabase functions deploy register --no-verify-jwt`
    - `supabase functions deploy username-login --no-verify-jwt`
