@@ -40,10 +40,10 @@ tbody tr:hover { background: rgba(255,255,255,.025); }
 .cell-display:not(:disabled):hover { background: rgba(255,255,255,.05); }
 .cell-display svg { flex: 0 0 14px; width: 14px; opacity: 0; color: #22d3ee; }
 .cell-display:hover svg { opacity: .7; }
-.binary-toggle { width: 100%; min-height: 58px; border: 1px solid transparent; border-radius: 9px; background: transparent; font-size: 1.25rem; cursor: pointer; transition: .18s ease; }
-.binary-toggle.checked { color: #67e8f9; background: rgba(8,145,178,.14); border-color: rgba(34,211,238,.3); filter: none; box-shadow: inset 0 0 20px rgba(34,211,238,.08); }
-.binary-toggle.unchecked { color: #64748b; filter: grayscale(1); opacity: .7; }
-.binary-toggle:not(:disabled):hover { border-color: rgba(34,211,238,.5); background: rgba(255,255,255,.05); transform: translateY(-1px); }
+.binary-toggle { width: 100%; min-height: 58px; border: 0; border-radius: 0; background: transparent; font-size: 1.45rem; line-height: 1; cursor: pointer; transition: color .18s ease, opacity .18s ease; }
+.binary-toggle.checked { color: #67e8f9; background: transparent; box-shadow: none; }
+.binary-toggle.unchecked { color: #64748b; background: transparent; opacity: .65; }
+.binary-toggle:not(:disabled):hover { color: #a5f3fc; background: transparent; }
 .cell-display small { color: #fbbf24; font-size: .65rem; }
 .placeholder { color: #64748b; font-style: italic; }
 .cell-input, .form-stack input, .snapshot-create input { width: 100%; border: 1px solid rgba(34,211,238,.45); border-radius: 8px; color: #ecfeff; background: #0f172a; padding: 9px; }

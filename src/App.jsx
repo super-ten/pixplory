@@ -72,7 +72,7 @@ function BinaryToggle({ value, disabled, lockedBy, onCommit }) {
     aria-label={`${checked ? '已选中' : '未选中'}，点击切换`}
     title={lockedBy ? `${lockedBy} 正在编辑` : checked ? '点击切换为未选中' : '点击切换为选中'}
     onClick={() => onCommit(getNextBinaryStatus(value))}
-  >{status}</button>
+  ><span aria-hidden="true">{checked ? '✓' : '✕'}</span></button>
 }
 
 function AuthModal({ onClose, onAuthenticated, notify }) {
