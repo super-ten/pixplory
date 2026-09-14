@@ -97,6 +97,7 @@ insert into public.entries (id,category_id,term,intl,cn,description,sort_order) 
 ('d3000008-0000-4000-8000-000000000008'::uuid,'fd1a19f7-5c41-4dca-9c1f-5113be2eb186'::uuid,'LoRA','Civitai、Hugging Face、ComfyUI','低秩適配；LiblibAI、吐司 TusiArt','以少量可訓練參數適配大型模型的高效微調方法，常用於角色、風格或領域定制。LoRA 文件較小且易組合，但可能過擬合、產生概念串擾或放大資料偏差。',10),
 ('d3000009-0000-4000-8000-000000000009'::uuid,'fd1a19f7-5c41-4dca-9c1f-5113be2eb186'::uuid,'Temporal Consistency','Runway、Sora、Veo','時序一致性 / 運動連貫性；可靈、Vidu、即夢','影片生成中角色身份、物體外觀、場景結構和運動在連續幀間保持穩定的程度。它是區分單幀品質與完整影片可用性的核心指標。',11),
 ('d3000010-0000-4000-8000-000000000010'::uuid,'fd1a19f7-5c41-4dca-9c1f-5113be2eb186'::uuid,'Upscaling','Topaz Gigapixel、Adobe Photoshop、Clipdrop','超解析度 / 放大；美圖雲修、騰訊 ARC、通義萬相','從低解析度輸入生成更高解析度結果的後處理任務。生成式放大器可補充紋理，但新增細節不一定真實，證據型圖像或科研資料應避免把推測細節當作原始信息。',12),
-('d3000011-0000-4000-8000-000000000011'::uuid,'fd1a19f7-5c41-4dca-9c1f-5113be2eb186'::uuid,'3D Generation','Meshy、Luma AI、Spline','文生 3D / 圖生 3D；騰訊混元 3D、Tripo AI、Rodin','由文字或圖像生成網格、點雲、神經表示、材質或多視圖資產。評估不只看單一渲染圖，還需檢查幾何拓撲、多視角一致性、材質與下游軟件兼容性。',13)
+('d3000011-0000-4000-8000-000000000011'::uuid,'fd1a19f7-5c41-4dca-9c1f-5113be2eb186'::uuid,'3D Generation','Meshy、Luma AI、Spline','文生 3D / 圖生 3D；騰訊混元 3D、Tripo AI、Rodin','由文字或圖像生成網格、點雲、神經表示、材質或多視圖資產。評估不只看單一渲染圖，還需檢查幾何拓撲、多視角一致性、材質與下游軟件兼容性。',13),
+('d3000012-0000-4000-8000-000000000012'::uuid,'fd1a19f7-5c41-4dca-9c1f-5113be2eb186'::uuid,'ControlNet 3D','Blender＋Sora、Veo、Runway','3D 預演控制；Blender＋即夢','先用 Blender 等軟件以簡化幾何和攝影機運動完成 3D 預演，再將動畫與風格提示交給 AI 視頻模型，在保持鏡頭軌跡和場景佈局的基礎上生成高質量成片。',14)
 on conflict (id) do update set term=excluded.term,intl=excluded.intl,cn=excluded.cn,description=excluded.description,sort_order=excluded.sort_order,deleted_at=null;
 commit;
