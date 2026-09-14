@@ -13,4 +13,13 @@ describe('legacy migration', () => {
     const categoryIds = new Set(seed.categories.map(x => x.id))
     expect(seed.entries.every(x => categoryIds.has(x.category_id))).toBe(true)
   })
+
+  it('keeps the visual-generation columns structurally consistent', () => {
+    const visualCategoryId = 'fd1a19f7-5c41-4dca-9c1f-5113be2eb186'
+    const entries = seed.entries.filter(x => x.category_id === visualCategoryId)
+
+    expect(entries).toHaveLength(14)
+    expect(entries.every(x => x.intl.length > 0)).toBe(true)
+    expect(entries.every(x => x.cn.includes('；'))).toBe(true)
+  })
 })
