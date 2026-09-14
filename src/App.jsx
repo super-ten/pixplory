@@ -2,11 +2,12 @@ import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import ReactMarkdown from 'react-markdown'
 import {
   AppWindow, BookOpen, Download, Edit3, History, LogIn, LogOut,
-  Plus, RotateCcw, Save, Upload, UserRound, WifiOff, X
+  ChevronDown, ChevronUp, Plus, RotateCcw, Save, Upload, UserRound, WifiOff, X
 } from 'lucide-react'
 import { cloudConfigured, supabase } from './lib/supabase'
 import { downloadJson, downloadMarkdown, readMarkdown } from './lib/markdown'
 import { getFunctionErrorMessage } from './lib/functionError'
+import { getNextBinaryStatus, getVisibleEntries, isBinaryStatusField, normalizeBinaryStatus } from './lib/tableView'
 import seed from './data/seed.json'
 
 const DEFAULT_HEADERS = ['核心術語 / 簡稱', '國際生態 / 英文全稱', '國內對標 / 中文名稱', '學術釋義與應用語境']
@@ -58,6 +59,20 @@ function EditableCell({ value, disabled, lockedBy, multiline, onStart, onCancel,
     <span className={value ? '' : 'placeholder'}>{value || '点击编辑…'}</span>
     {lockedBy ? <small>{lockedBy} 正在编辑</small> : !disabled && <Edit3 />}
   </button>
+}
+
+function BinaryToggle({ value, disabled, lockedBy, onCommit }) {
+  const status = normalizeBinaryStatus(value)
+  const checked = status === '☑️'
+  return <button
+    type="button"
+    className={`binary-toggle ${checked ? 'checked' : 'unchecked'}`}
+    disabled={disabled || Boolean(lockedBy)}
+    aria-pressed={checked}
+    aria-label={`${checked ? '已选中' : '未选中'}，点击切换`}
+    title={lockedBy ? `${lockedBy} 正在编辑` : checked ? '点击切换为未选中' : '点击切换为选中'}
+    onClick={() => onCommit(getNextBinaryStatus(value))}
+  >{status}</button>
 }
 
 function AuthModal({ onClose, onAuthenticated, notify }) {
@@ -195,6 +210,7 @@ export default function App() {
   const [modal, setModal] = useState(null)
   const [locks, setLocks] = useState({})
   const [installPrompt, setInstallPrompt] = useState(null)
+  const [expandedCategories, setExpandedCategories] = useState({})
   const channelRef = useRef(null)
   const importRef = useRef(null)
   const notify = useCallback((message, type = 'success') => { setToast({ message, type }); window.setTimeout(() => setToast(null), 3200) }, [])
@@ -304,12 +320,17 @@ export default function App() {
       </header>
 
       {loading ? <p className="empty">正在读取最新内容…</p> : !online ? <div className="offline-panel"><WifiOff /><h2>当前没有网络连接</h2><p>为避免展示过期内容或产生冲突，业务数据已隐藏，恢复联网后会自动加载最新版。</p></div> : <div className="category-list">
-        {grouped.map(category => <section className="category" key={category.id}>
-          <div className="category-title"><EditableCell value={category.title} disabled={!editable} lockedBy={locks[`category:${category.id}:title`]} onStart={() => trackLock(`category:${category.id}:title`)} onCancel={() => trackLock(null)} onCommit={value => updateCategory(category, { title: value })} />{editable && <button onClick={() => addEntry(category)}><Plus />添加条目</button>}</div>
+        {grouped.map((category, categoryIndex) => {
+          const expanded = Boolean(expandedCategories[category.id])
+          const visibleEntries = getVisibleEntries(category.entries, expanded)
+          const hasHiddenEntries = category.entries.length > visibleEntries.length
+          return <section className="category" key={category.id}>
+          <div className="category-title"><EditableCell value={category.title} disabled={!editable} lockedBy={locks[`category:${category.id}:title`]} onStart={() => trackLock(`category:${category.id}:title`)} onCancel={() => trackLock(null)} onCommit={value => updateCategory(category, { title: value })} /><div className="category-actions"><button className="expand-button" onClick={() => setExpandedCategories(state => ({ ...state, [category.id]: !expanded }))} aria-expanded={expanded}>{expanded ? <ChevronUp /> : <ChevronDown />}{expanded ? '收起' : '展开'}</button>{editable && <button onClick={() => addEntry(category)}><Plus />添加条目</button>}</div></div>
           <div className="table-wrap"><table><thead><tr>{(category.headers || DEFAULT_HEADERS).map((header, i) => <th key={i}><EditableCell value={header} disabled={!editable} lockedBy={locks[`category:${category.id}:header:${i}`]} onStart={() => trackLock(`category:${category.id}:header:${i}`)} onCancel={() => trackLock(null)} onCommit={value => { const headers = [...(category.headers || DEFAULT_HEADERS)]; headers[i] = value; return updateCategory(category, { headers }) }} /></th>)}<th>操作</th></tr></thead>
-            <tbody>{category.entries.map(entry => <tr key={entry.id}>{FIELDS.map(field => <td key={field}><EditableCell value={entry[field]} multiline={field === 'description'} disabled={!editable} lockedBy={locks[`entry:${entry.id}:${field}`]} onStart={() => trackLock(`entry:${entry.id}:${field}`)} onCancel={() => trackLock(null)} onCommit={value => updateEntry(entry, field, value)} /></td>)}<td className="row-actions">{session && <button title="详细笔记" onClick={() => setModal({ type: 'note', entry })}><BookOpen /></button>}{editable && <button className="danger-button" title="删除" onClick={() => removeEntry(entry)}><X /></button>} {session && <small>{entry.last_editor_name ? `${entry.last_editor_name} · ` : ''}{entry.updated_at ? new Date(entry.updated_at).toLocaleDateString() : ''}</small>}</td></tr>)}</tbody>
+            <tbody>{visibleEntries.map(entry => <tr key={entry.id}>{FIELDS.map(field => <td key={field}>{isBinaryStatusField(categoryIndex, field) ? <BinaryToggle value={entry[field]} disabled={!editable} lockedBy={locks[`entry:${entry.id}:${field}`]} onCommit={value => updateEntry(entry, field, value)} /> : <EditableCell value={entry[field]} multiline={field === 'description'} disabled={!editable} lockedBy={locks[`entry:${entry.id}:${field}`]} onStart={() => trackLock(`entry:${entry.id}:${field}`)} onCancel={() => trackLock(null)} onCommit={value => updateEntry(entry, field, value)} />}</td>)}<td className="row-actions">{session && <button title="详细笔记" onClick={() => setModal({ type: 'note', entry })}><BookOpen /></button>}{editable && <button className="danger-button" title="删除" onClick={() => removeEntry(entry)}><X /></button>} {session && <small>{entry.last_editor_name ? `${entry.last_editor_name} · ` : ''}{entry.updated_at ? new Date(entry.updated_at).toLocaleDateString() : ''}</small>}</td></tr>)}</tbody>
           </table></div>
-        </section>)}
+          {hasHiddenEntries && <p className="collapsed-hint">已显示前 3 条，共 {category.entries.length} 条</p>}
+        </section>})}
       </div>}
     </main>
     <footer>PIXPLORY · 云端内容为唯一正式版本</footer>
