@@ -1,0 +1,336 @@
+{
+  "categories": [
+    {
+      "id": "087cde3a-f15f-4186-ac5d-23c5d9ae8ba5",
+      "title": "1. 核心技術概念 (Core Philosophy)",
+      "headers": [
+        "核心術語 / 簡稱",
+        "國際生態 / 英文全稱",
+        "國內對標 / 中文名稱",
+        "學術釋義與應用語境"
+      ],
+      "sort_order": 0,
+      "revision": 1
+    },
+    {
+      "id": "d6436ea1-bdf6-4558-b938-20d20b9e63a9",
+      "title": "2. 生產力與開發 (IDE & Agents)",
+      "headers": [
+        "核心工具",
+        "國際生態 / 英文全稱",
+        "國內對標 / 中文名稱",
+        "功能闡述與應用語境"
+      ],
+      "sort_order": 1,
+      "revision": 1
+    },
+    {
+      "id": "fd1a19f7-5c41-4dca-9c1f-5113be2eb186",
+      "title": "3. 多模態視覺生成引擎 (Multimodal Generative)",
+      "headers": [
+        "核心術語 / 簡稱",
+        "國際生態 / 英文全稱",
+        "國內對標 / 中文名稱",
+        "學術釋義與應用語境"
+      ],
+      "sort_order": 2,
+      "revision": 1
+    },
+    {
+      "id": "e3035b1d-0ac0-4010-90dc-d52f1bc922ea",
+      "title": "4. 智能工作流與Skill部署 (Workflows & Skill)",
+      "headers": [
+        "核心工具",
+        "原生codex插件",
+        "需gihub加载",
+        "功能闡述與應用語境"
+      ],
+      "sort_order": 3,
+      "revision": 1
+    },
+    {
+      "id": "59cbfbed-5e14-4209-899a-db8a8c7b9f84",
+      "title": "5.科研工作流與Skill (Workflows & Skill)",
+      "headers": [
+        "核心工具",
+        "原生codex插件",
+        "需gihub加载",
+        "功能闡述與應用語境"
+      ],
+      "sort_order": 4,
+      "revision": 1
+    }
+  ],
+  "entries": [
+    {
+      "id": "3dfd78b2-058f-4cdd-a652-5de60022f50d",
+      "category_id": "087cde3a-f15f-4186-ac5d-23c5d9ae8ba5",
+      "term": "LLM",
+      "intl": "Large Language Model",
+      "cn": "大語言模型",
+      "description": "AI 的“大腦引擎”。通過海量參數計算概率分布來生成內容。",
+      "sort_order": 0,
+      "revision": 1
+    },
+    {
+      "id": "0f1e984c-5eb2-4205-8380-6b253b92238c",
+      "category_id": "087cde3a-f15f-4186-ac5d-23c5d9ae8ba5",
+      "term": "Agent",
+      "intl": "AI Agent",
+      "cn": "智能體",
+      "description": "Codex等能直接控制、调用多种工具的AI智能化工具。",
+      "sort_order": 1,
+      "revision": 1
+    },
+    {
+      "id": "f22a9531-a1bb-4a67-aef2-65fbec0f0566",
+      "category_id": "087cde3a-f15f-4186-ac5d-23c5d9ae8ba5",
+      "term": "Skills",
+      "intl": "AI Skills / Toolset",
+      "cn": "技能 / 工具集",
+      "description": "賦予 Agent 的具體能力模塊。例如“聯網查閱資料”、“自動發郵件”或“調用渲染器引擎”。",
+      "sort_order": 2,
+      "revision": 1
+    },
+    {
+      "id": "2d34aa4e-83c5-49d1-92e9-0b0e7c7bba73",
+      "category_id": "087cde3a-f15f-4186-ac5d-23c5d9ae8ba5",
+      "term": "MCP",
+      "intl": "Model Context Protocol",
+      "cn": "模型上下文協議",
+      "description": "Anthropic 推出的開源標準。被譽為 AI 的“萬能數據插頭”，通過標準化協議讓大模型安全、合規地穿透軟件壁壘，讀取本地文件或雲端系統數據。",
+      "sort_order": 3,
+      "revision": 1
+    },
+    {
+      "id": "b582371c-583b-42bd-b6e0-26e9fde0980b",
+      "category_id": "087cde3a-f15f-4186-ac5d-23c5d9ae8ba5",
+      "term": "CLI",
+      "intl": "Command Line Interface",
+      "cn": "命令行界面",
+      "description": "極客與開發者偏愛的純文本控制台。當前很多硬核 AI（如 Claude Code）直接在此環境運行，以最高權限接管機器操作。",
+      "sort_order": 4,
+      "revision": 1
+    },
+    {
+      "id": "c2fadd12-b417-4e4a-a002-b73e1764cb38",
+      "category_id": "087cde3a-f15f-4186-ac5d-23c5d9ae8ba5",
+      "term": "RAG",
+      "intl": "Retrieval-Augmented Generation",
+      "cn": "檢索增強生成",
+      "description": "讓 AI 在回答前先去指定的外部知識庫中“翻書找依據”，是目前解決 AI 事實性“幻覺”最主流的技術架構。",
+      "sort_order": 5,
+      "revision": 1
+    },
+    {
+      "id": "0bd79829-5a7c-4b6d-8e0e-d68926cb1d93",
+      "category_id": "087cde3a-f15f-4186-ac5d-23c5d9ae8ba5",
+      "term": "Vibe Coding",
+      "intl": "-",
+      "cn": "氛圍/意圖編程",
+      "description": "【最新範式】 人類像“導演”一樣提供意圖和審美，AI 負責語法與實現。標誌著創作者從“工匠”向“指揮家”轉變。",
+      "sort_order": 6,
+      "revision": 1
+    },
+    {
+      "id": "d9dbecf6-9229-47fa-a8d7-ff970ab326aa",
+      "category_id": "d6436ea1-bdf6-4558-b938-20d20b9e63a9",
+      "term": "AI-first IDE",
+      "intl": "Cursor, Windsurf",
+      "cn": "Trae (字節跳動)",
+      "description": "將 AI 深度嵌入工作流的編輯器，支持全局代碼重構與自動構建。Trae 為目前國內極具代表性的全能選項。",
+      "sort_order": 0,
+      "revision": 1
+    },
+    {
+      "id": "08e55c56-2809-4254-b0af-e953503db363",
+      "category_id": "d6436ea1-bdf6-4558-b938-20d20b9e63a9",
+      "term": "未來 IDE 架構",
+      "intl": "Antigravity (Google)、cluade code、codex",
+      "cn": "-",
+      "description": "真正的 Agent-first 平台，協調多個 AI 並行工作生成交付產品。\n接入PENCIL MCP:https://www.youtube.com/watch?v=nFxPhm8e19c\n接入STITCH MCP:https://www.youtube.com/watch?v=nFxPhm8e19c\n基礎設置（skill）：https://www.douyin.com/video/7602607634130193700",
+      "sort_order": 1,
+      "revision": 1
+    },
+    {
+      "id": "6cb65e00-95df-4474-a06a-cd85fb657b53",
+      "category_id": "d6436ea1-bdf6-4558-b938-20d20b9e63a9",
+      "term": "雲端開發環境",
+      "intl": "Google AI Studio, Project IDX",
+      "cn": "阿里雲百煉, 騰訊雲微搭",
+      "description": "基於瀏覽器的雲端全棧開發環境或 API 調試平台，免除本地算力與環境配置的煩惱。",
+      "sort_order": 2,
+      "revision": 1
+    },
+    {
+      "id": "4e66fdaf-de1f-4e26-a670-e169f75854bd",
+      "category_id": "d6436ea1-bdf6-4558-b938-20d20b9e63a9",
+      "term": "開源智能體",
+      "intl": "OpenClaw（龙虾）、MetaGPT",
+      "cn": "WorkBuddy（騰訊）",
+      "description": "打破閉源壁壘的代表。MetaGPT 引入了標準作業程序(SOP)，支持多角色 AI 協同開發。",
+      "sort_order": 3,
+      "revision": 1
+    },
+    {
+      "id": "ad668fbd-6d7b-4746-b541-7af221b96edf",
+      "category_id": "fd1a19f7-5c41-4dca-9c1f-5113be2eb186",
+      "term": "Diffusion Models",
+      "intl": "Midjourney, Stable Diffusion",
+      "cn": "可靈 (Kling)",
+      "description": "擴散模型。通過噪聲預測與去除實現高保真圖像生成，重塑了視覺藝術的生產管線與審美標准。",
+      "sort_order": 0,
+      "revision": 1
+    },
+    {
+      "id": "a19772fa-bb46-4417-8678-954d24a111e6",
+      "category_id": "fd1a19f7-5c41-4dca-9c1f-5113be2eb186",
+      "term": "Node-based Gen",
+      "intl": "ComfyUI",
+      "cn": "Liblib",
+      "description": "節點式生成界面。將黑盒化的 AI 繪圖轉化為可視化的邏輯節點，賦予創作者對生成過程的極限控制力。",
+      "sort_order": 1,
+      "revision": 1
+    },
+    {
+      "id": "3cf8fbce-6a25-42c8-878d-170ba069dcf3",
+      "category_id": "fd1a19f7-5c41-4dca-9c1f-5113be2eb186",
+      "term": "Spacetime Patches",
+      "intl": "Sora (OpenAI)",
+      "cn": "Vidu",
+      "description": "時空補丁技術。將視頻降維為統一的數據切片，實現了從單幀畫面到物理世界動態模擬的跨越。",
+      "sort_order": 2,
+      "revision": 1
+    },
+    {
+      "id": "786b7347-cea1-4c69-ba43-af1f20389731",
+      "category_id": "e3035b1d-0ac0-4010-90dc-d52f1bc922ea",
+      "term": "Remotion",
+      "intl": "☑️",
+      "cn": "☑️",
+      "description": "“自动化3D特效”嵌入网页用的动画动画、三维动效、字体动效、动态图表等、科学动画等，包含页面视觉特效。",
+      "sort_order": 0,
+      "revision": 1
+    },
+    {
+      "id": "c46f96af-95ee-4168-b216-542885f20be2",
+      "category_id": "e3035b1d-0ac0-4010-90dc-d52f1bc922ea",
+      "term": "HyperFrames",
+      "intl": "☑️",
+      "cn": "☑️",
+      "description": "“自动化AE”视频剪辑、特效、LOGO动画演绎都能精准控帧，1秒搭环境，指令丢进去就跑",
+      "sort_order": 1,
+      "revision": 1
+    },
+    {
+      "id": "aff1c472-752f-4332-8e7b-f8375410acc0",
+      "category_id": "e3035b1d-0ac0-4010-90dc-d52f1bc922ea",
+      "term": "Imagegen",
+      "intl": "✖️",
+      "cn": "☑️",
+      "description": "“万能PS”自动化PPT排版、海报排版等……",
+      "sort_order": 2,
+      "revision": 1
+    },
+    {
+      "id": "c6679b22-a777-4127-9d22-b000e2099b55",
+      "category_id": "087cde3a-f15f-4186-ac5d-23c5d9ae8ba5",
+      "term": "Markdown",
+      "intl": "-",
+      "cn": "純文本標記語言",
+      "description": "一种轻量级的标记语言，可用于在纯文本文档中添加格式化元素，設定Rules。",
+      "sort_order": 7,
+      "revision": 1
+    },
+    {
+      "id": "216ae8f6-6557-4a67-b78f-ab612862cf77",
+      "category_id": "087cde3a-f15f-4186-ac5d-23c5d9ae8ba5",
+      "term": "IDE",
+      "intl": "‌Integrated Development Environment‌",
+      "cn": "集成开发环境",
+      "description": "它把程序设计全过程所需的各项功能集合在一起，为程序设计人员提供完整的服务。",
+      "sort_order": 8,
+      "revision": 1
+    },
+    {
+      "id": "4e1d96f3-9b0f-4ed8-b091-dbde51bf6cbf",
+      "category_id": "087cde3a-f15f-4186-ac5d-23c5d9ae8ba5",
+      "term": "workflow",
+      "intl": "1.\t節點（Input/Task）2.\t路由（Routing/Path）3.\t規則（Rules/Logic）",
+      "cn": "工作流",
+      "description": "把複雜的任務拆解成有規律的輸送帶」，讓事情能順著預設好的軌道自動跑完。",
+      "sort_order": 9,
+      "revision": 1
+    },
+    {
+      "id": "4b26e1f7-ec18-43b5-a05d-bb1e761f70dc",
+      "category_id": "087cde3a-f15f-4186-ac5d-23c5d9ae8ba5",
+      "term": "Git",
+      "intl": "-",
+      "cn": "分散式版本控制系統",
+      "description": "遊戲存檔、版本更新內容、歷史紀錄",
+      "sort_order": 10,
+      "revision": 1
+    },
+    {
+      "id": "a7de793f-223b-4e79-bb51-9cb7088120e6",
+      "category_id": "087cde3a-f15f-4186-ac5d-23c5d9ae8ba5",
+      "term": "Task",
+      "intl": "-",
+      "cn": "任務執行列表",
+      "description": "要求 AI 模型去執行並完成的特定目標或功能。",
+      "sort_order": 11,
+      "revision": 1
+    },
+    {
+      "id": "4fe30833-6799-4392-8d9a-a1c868a0c321",
+      "category_id": "087cde3a-f15f-4186-ac5d-23c5d9ae8ba5",
+      "term": "PRD",
+      "intl": "Product Requirements Document",
+      "cn": "產品需求文檔",
+      "description": "是將模糊的「AI 願景」轉化為可落地的「工程指令」，確保技術團隊在模型邊界、數據需求與用戶價值之間達成共識的導航地圖。",
+      "sort_order": 12,
+      "revision": 1
+    },
+    {
+      "id": "8f53f8ce-e5dc-488b-a3ab-b08429383136",
+      "category_id": "087cde3a-f15f-4186-ac5d-23c5d9ae8ba5",
+      "term": "React",
+      "intl": "",
+      "cn": "React 應用",
+      "description": "基于React JavaScript，用 React 代码实现html网页的同时，能同步开发 iOS 和 Android 原生应用。目前AI-IDE生產優選。",
+      "sort_order": 13,
+      "revision": 1
+    },
+    {
+      "id": "4d226b26-7964-4450-902d-8598ccaed5db",
+      "category_id": "087cde3a-f15f-4186-ac5d-23c5d9ae8ba5",
+      "term": "canvas",
+      "intl": "",
+      "cn": "视觉画布",
+      "description": "Canvas 是一個能隨時幫你改稿、可視化、以畫布連接邏輯思維的AI畫布。",
+      "sort_order": 14,
+      "revision": 1
+    },
+    {
+      "id": "9d0fede8-0087-4504-a0a3-e79b4e288ed5",
+      "category_id": "087cde3a-f15f-4186-ac5d-23c5d9ae8ba5",
+      "term": "FDE",
+      "intl": "Forward Deployed Engineer",
+      "cn": "前沿部署工程",
+      "description": "Ai驻场交付，全链路闭环，AI技术与落地集成；能力点：1.全栈设计技术2.行业业务洞察3.客户沟通能力。",
+      "sort_order": 15,
+      "revision": 1
+    },
+    {
+      "id": "7480c0af-206b-4166-9828-d42d49942d97",
+      "category_id": "59cbfbed-5e14-4209-899a-db8a8c7b9f84",
+      "term": "新術語",
+      "intl": "-",
+      "cn": "-",
+      "description": "請編輯內容",
+      "sort_order": 0,
+      "revision": 1
+    }
+  ]
+}
