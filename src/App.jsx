@@ -68,6 +68,14 @@ function AuthModal({ onClose, onAuthenticated, notify }) {
   const submit = async e => {
     e.preventDefault(); setBusy(true)
     try {
+      if (mode === 'login' && form.email.trim()) {
+        const { error } = await supabase.auth.signInWithPassword({
+          email: form.email.trim().toLowerCase(),
+          password: form.password
+        })
+        if (error) throw error
+        await onAuthenticated(); onClose(); return
+      }
       const { data, error } = await supabase.functions.invoke(mode === 'login' ? 'username-login' : 'register', { body: form })
       if (error || data?.error) throw new Error(await getFunctionErrorMessage(error, data))
       if (mode === 'login') {
@@ -93,7 +101,7 @@ function AuthModal({ onClose, onAuthenticated, notify }) {
         <label>恢复邮箱<input required type="email" name="email" value={form.email} onChange={update} /></label>
         <label>邀请码<input required name="inviteCode" value={form.inviteCode} onChange={update} /></label>
       </>}
-      {mode === 'login' && <label>恢复邮箱（仅用于找回密码）<input type="email" name="email" value={form.email} onChange={update} /></label>}
+      {mode === 'login' && <label>邮箱（可直接登录，也用于找回密码）<input type="email" name="email" value={form.email} onChange={update} /></label>}
       <label>密码<input required minLength="8" type="password" name="password" autoComplete={mode === 'login' ? 'current-password' : 'new-password'} value={form.password} onChange={update} /></label>
       <button className="primary" disabled={busy}>{busy ? '请稍候…' : mode === 'login' ? '登录' : '注册'}</button>
       <div className="form-actions"><button type="button" onClick={() => setMode(mode === 'login' ? 'register' : 'login')}>{mode === 'login' ? '使用邀请码注册' : '已有账号，返回登录'}</button>{mode === 'login' && <button type="button" onClick={recover}>忘记密码</button>}</div>
