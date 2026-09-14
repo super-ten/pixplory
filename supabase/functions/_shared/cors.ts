@@ -1,5 +1,9 @@
 const allowed = new Set([
   'http://localhost:5173',
+  // GitHub Pages may serve the custom domain over HTTP briefly while its
+  // certificate is being issued. Keep registration usable during that window.
+  'http://pixplory.com',
+  'http://www.pixplory.com',
   'https://pixplory.com',
   'https://www.pixplory.com'
 ])
