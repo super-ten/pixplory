@@ -6,6 +6,7 @@ import {
 } from 'lucide-react'
 import { cloudConfigured, supabase } from './lib/supabase'
 import { downloadJson, downloadMarkdown, readMarkdown } from './lib/markdown'
+import { getFunctionErrorMessage } from './lib/functionError'
 import seed from './data/seed.json'
 
 const DEFAULT_HEADERS = ['核心術語 / 簡稱', '國際生態 / 英文全稱', '國內對標 / 中文名稱', '學術釋義與應用語境']
@@ -68,7 +69,7 @@ function AuthModal({ onClose, onAuthenticated, notify }) {
     e.preventDefault(); setBusy(true)
     try {
       const { data, error } = await supabase.functions.invoke(mode === 'login' ? 'username-login' : 'register', { body: form })
-      if (error || data?.error) throw new Error(data?.error || error.message)
+      if (error || data?.error) throw new Error(await getFunctionErrorMessage(error, data))
       if (mode === 'login') {
         const { error: sessionError } = await supabase.auth.setSession({ access_token: data.access_token, refresh_token: data.refresh_token })
         if (sessionError) throw sessionError
@@ -86,7 +87,7 @@ function AuthModal({ onClose, onAuthenticated, notify }) {
   }
   return <Modal title={mode === 'login' ? '成员登录' : '成员注册'} onClose={onClose}>
     <form className="form-stack" onSubmit={submit}>
-      <label>用户名<input required name="username" autoComplete="username" value={form.username} onChange={update} /></label>
+      <label>{mode === 'login' ? '用户名（不是实名或邮箱）' : '用户名'}<input required name="username" autoComplete="username" value={form.username} onChange={update} /></label>
       {mode === 'register' && <>
         <label>实名显示名<input required name="displayName" value={form.displayName} onChange={update} /></label>
         <label>恢复邮箱<input required type="email" name="email" value={form.email} onChange={update} /></label>
