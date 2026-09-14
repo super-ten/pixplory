@@ -309,7 +309,7 @@ export default function App() {
     <div className="ambient" />
     <main>
       <header className="hero">
-        <div><p className="eyebrow">PIXPLORY · DIGITAL MEDIA ART TAXONOMY</p><h1>AI 全棧創作索引</h1><p className="subtitle">运用 AI 智能体实现跨界融合的“全栈型创作者”</p><div className="status-row">{!online ? <span className="status danger"><WifiOff />离线，只读数据已隐藏</span> : !cloudConfigured ? <span className="status warning">尚未配置 Supabase · 当前显示迁移预览</span> : <span className="status">云端实时同步</span>}{profile && <span className="member"><UserRound />{profile.display_name} · {profile.role === 'admin' ? '管理员' : '成员'}</span>}</div></div>
+        <div><p className="eyebrow">PIXPLORY · AI WORK INDEX</p><h1>Pixplory AI 工作索引</h1><p className="subtitle">面向智能时代的研究与创造工具箱</p><div className="status-row">{!online ? <span className="status danger"><WifiOff />离线，只读数据已隐藏</span> : !cloudConfigured ? <span className="status warning">尚未配置 Supabase · 当前显示迁移预览</span> : <span className="status">云端实时同步</span>}{profile && <span className="member"><UserRound />{profile.display_name} · {profile.role === 'admin' ? '管理员' : '成员'}</span>}</div></div>
         <div className="toolbar">
           <button onClick={install}><AppWindow />安装桌面版</button>
           {session && <button onClick={() => setModal({ type: 'history' })}><History />版本历史</button>}

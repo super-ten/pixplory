@@ -1,4 +1,6 @@
-# Pixplory · AI 全棧創作索引
+# Pixplory AI 工作索引
+
+面向智能时代的研究与创造工具箱。
 
 一个面向小团队的实时协作知识索引。前端为 React PWA，GitHub Pages 托管；认证、数据、实时同步和版本历史由 Supabase 提供。
 

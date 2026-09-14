@@ -21,9 +21,9 @@ export default defineConfig({
       registerType: 'prompt',
       includeAssets: ['favicon.svg', 'pwa-192.svg', 'pwa-512.svg'],
       manifest: {
-        name: 'AI 全棧創作索引',
-        short_name: 'Pixplory',
-        description: '多人实时协作的 AI 全栈创作知识索引',
+        name: 'Pixplory AI 工作索引',
+        short_name: 'Pixplory AI',
+        description: '面向智能时代的研究与创造工具箱',
         theme_color: '#020617',
         background_color: '#020617',
         display: 'standalone',
