@@ -49,4 +49,4 @@
 - `AI全棧創作索引.html`：保留的原始文件，不再作为运行入口。
 - `scripts/extract-legacy-data.mjs`：从原文件的唯一 `app-data` 区块提取数据。
 - `src/data/seed.json`：未配置云端时使用的只读迁移预览。
-- `supabase/seed.sql`：供新数据库首次导入的 5 个分类与 39 个条目。
+- `supabase/seed.sql`：供新数据库首次导入的 5 个分类与 58 个条目。

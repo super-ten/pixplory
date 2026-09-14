@@ -4,9 +4,9 @@ import seed from './seed.json'
 describe('legacy migration', () => {
   it('contains the complete unique legacy dataset', () => {
     expect(seed.categories).toHaveLength(5)
-    expect(seed.entries).toHaveLength(39)
+    expect(seed.entries).toHaveLength(58)
     expect(new Set(seed.categories.map(x => x.id)).size).toBe(5)
-    expect(new Set(seed.entries.map(x => x.id)).size).toBe(39)
+    expect(new Set(seed.entries.map(x => x.id)).size).toBe(58)
   })
 
   it('keeps every entry attached to a known category', () => {
