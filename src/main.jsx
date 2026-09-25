@@ -4,11 +4,7 @@ import { registerSW } from 'virtual:pwa-register'
 import App from './App'
 import './styles.css'
 
-registerSW({
-  onNeedRefresh() {
-    window.dispatchEvent(new CustomEvent('pixplory:update-ready'))
-  }
-})
+registerSW()
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode><App /></React.StrictMode>
