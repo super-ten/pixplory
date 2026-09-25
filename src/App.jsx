@@ -1,8 +1,9 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import ReactMarkdown from 'react-markdown'
 import {
-  AppWindow, BookOpen, Download, Edit3, History, LogIn, LogOut,
-  ChevronDown, ChevronUp, Plus, RotateCcw, Save, Upload, UserRound, WifiOff, X
+  AppWindow, BookOpen, ChevronDown, ChevronUp, ChevronsDown, ChevronsUp,
+  Download, Edit3, GripVertical, History, LogIn, LogOut,
+  Plus, RotateCcw, Save, Upload, UserRound, WifiOff, X
 } from 'lucide-react'
 import { cloudConfigured, supabase } from './lib/supabase'
 import { downloadJson, downloadMarkdown, readMarkdown } from './lib/markdown'
@@ -211,8 +212,11 @@ export default function App() {
   const [locks, setLocks] = useState({})
   const [installPrompt, setInstallPrompt] = useState(null)
   const [expandedCategories, setExpandedCategories] = useState({})
+  const [reorderingCategories, setReorderingCategories] = useState({})
+  const [dragOverEntry, setDragOverEntry] = useState(null)
   const channelRef = useRef(null)
   const importRef = useRef(null)
+  const draggedEntryRef = useRef(null)
   const notify = useCallback((message, type = 'success') => { setToast({ message, type }); window.setTimeout(() => setToast(null), 3200) }, [])
   const editable = Boolean(session && online && cloudConfigured)
 
@@ -269,6 +273,27 @@ export default function App() {
     const { data, error } = await supabase.rpc('update_entry_field', { target_id: entry.id, target_field: field, new_value: value, expected_revision: entry.revision })
     if (error) { notify(error.message.includes('revision') ? '内容已被其他成员修改，请查看最新版后重试' : error.message, 'error'); await loadContent() }
     else setEntries(list => list.map(x => x.id === entry.id ? data : x))
+  }
+  const reorderEntries = async (category, sourceId, targetId) => {
+    if (!editable || sourceId === targetId || reorderingCategories[category.id]) return
+    const ordered = [...category.entries]
+    const sourceIndex = ordered.findIndex(entry => entry.id === sourceId)
+    const targetIndex = ordered.findIndex(entry => entry.id === targetId)
+    if (sourceIndex < 0 || targetIndex < 0) { await loadContent(); return }
+    ordered.splice(targetIndex, 0, ordered.splice(sourceIndex, 1)[0])
+    setReorderingCategories(state => ({ ...state, [category.id]: true }))
+    try {
+      const { error } = await supabase.rpc('reorder_category_entries', {
+        target_category_id: category.id,
+        ordered_entry_ids: ordered.map(entry => entry.id)
+      })
+      if (error) notify(error.message.includes('entry list changed') ? '条目列表已被其他成员更改，已重新载入最新顺序' : error.message, 'error')
+      await loadContent()
+    } catch (error) {
+      notify(error.message || '顺序保存失败，请检查网络后重试', 'error')
+    } finally {
+      setReorderingCategories(state => ({ ...state, [category.id]: false }))
+    }
   }
   const updateCategory = async (category, patch) => {
     const { error } = await supabase.from('categories').update(patch).eq('id', category.id).eq('revision', category.revision)
@@ -327,9 +352,13 @@ export default function App() {
           return <section className="category" key={category.id}>
           <div className="category-title"><EditableCell value={category.title} disabled={!editable} lockedBy={locks[`category:${category.id}:title`]} onStart={() => trackLock(`category:${category.id}:title`)} onCancel={() => trackLock(null)} onCommit={value => updateCategory(category, { title: value })} /><div className="category-actions"><button className="expand-button" onClick={() => setExpandedCategories(state => ({ ...state, [category.id]: !expanded }))} aria-expanded={expanded}>{expanded ? <ChevronUp /> : <ChevronDown />}{expanded ? '收起' : '展开'}</button>{editable && <button onClick={() => addEntry(category)}><Plus />添加条目</button>}</div></div>
           <div className="table-wrap"><table><thead><tr>{(category.headers || DEFAULT_HEADERS).map((header, i) => <th key={i}><EditableCell value={header} disabled={!editable} lockedBy={locks[`category:${category.id}:header:${i}`]} onStart={() => trackLock(`category:${category.id}:header:${i}`)} onCancel={() => trackLock(null)} onCommit={value => { const headers = [...(category.headers || DEFAULT_HEADERS)]; headers[i] = value; return updateCategory(category, { headers }) }} /></th>)}<th>操作</th></tr></thead>
-            <tbody>{visibleEntries.map(entry => <tr key={entry.id}>{FIELDS.map(field => <td key={field}>{isBinaryStatusField(categoryIndex, field) ? <BinaryToggle value={entry[field]} disabled={!editable} lockedBy={locks[`entry:${entry.id}:${field}`]} onCommit={value => updateEntry(entry, field, value)} /> : <EditableCell value={entry[field]} multiline={field === 'description'} disabled={!editable} lockedBy={locks[`entry:${entry.id}:${field}`]} onStart={() => trackLock(`entry:${entry.id}:${field}`)} onCancel={() => trackLock(null)} onCommit={value => updateEntry(entry, field, value)} />}</td>)}<td className="row-actions">{session && <button title="详细笔记" onClick={() => setModal({ type: 'note', entry })}><BookOpen /></button>}{editable && <button className="danger-button" title="删除" onClick={() => removeEntry(entry)}><X /></button>} {session && <small>{entry.last_editor_name ? `${entry.last_editor_name} · ` : ''}{entry.updated_at ? new Date(entry.updated_at).toLocaleDateString() : ''}</small>}</td></tr>)}</tbody>
+            <tbody>{visibleEntries.map((entry, visibleIndex) => <tr key={entry.id} className={dragOverEntry === entry.id ? 'drop-target' : ''} onDragOver={event => { if (draggedEntryRef.current && !reorderingCategories[category.id]) { event.preventDefault(); setDragOverEntry(entry.id) } }} onDragLeave={() => { if (dragOverEntry === entry.id) setDragOverEntry(null) }} onDrop={event => { event.preventDefault(); const sourceId = draggedEntryRef.current; draggedEntryRef.current = null; setDragOverEntry(null); if (sourceId) reorderEntries(category, sourceId, entry.id) }}>
+              {FIELDS.map(field => <td key={field}>{isBinaryStatusField(categoryIndex, field) ? <BinaryToggle value={entry[field]} disabled={!editable} lockedBy={locks[`entry:${entry.id}:${field}`]} onCommit={value => updateEntry(entry, field, value)} /> : <EditableCell value={entry[field]} multiline={field === 'description'} disabled={!editable} lockedBy={locks[`entry:${entry.id}:${field}`]} onStart={() => trackLock(`entry:${entry.id}:${field}`)} onCancel={() => trackLock(null)} onCommit={value => updateEntry(entry, field, value)} />}</td>)}
+              <td className="row-actions"><div className="row-action-buttons">{editable && <><button className="reorder-handle" draggable={!reorderingCategories[category.id]} disabled={reorderingCategories[category.id]} aria-label={`拖动调整 ${entry.term || '未命名条目'} 顺序`} title="拖动调整顺序" onDragStart={event => { draggedEntryRef.current = entry.id; event.dataTransfer.effectAllowed = 'move'; event.dataTransfer.setData('text/plain', entry.id) }} onDragEnd={() => { draggedEntryRef.current = null; setDragOverEntry(null) }}><GripVertical /></button><button title="上移" aria-label="上移条目" disabled={visibleIndex === 0 || reorderingCategories[category.id]} onClick={() => reorderEntries(category, entry.id, visibleEntries[visibleIndex - 1]?.id)}><ChevronsUp /></button><button title="下移" aria-label="下移条目" disabled={visibleIndex === visibleEntries.length - 1 || reorderingCategories[category.id]} onClick={() => reorderEntries(category, entry.id, visibleEntries[visibleIndex + 1]?.id)}><ChevronsDown /></button></>}{session && <button title="详细笔记" aria-label="详细笔记" onClick={() => setModal({ type: 'note', entry })}><BookOpen /></button>}{editable && <button className="danger-button" title="删除" aria-label="删除条目" onClick={() => removeEntry(entry)}><X /></button>}</div>{session && <small>{entry.last_editor_name ? `${entry.last_editor_name} · ` : ''}{entry.updated_at ? new Date(entry.updated_at).toLocaleDateString() : ''}</small>}</td>
+            </tr>)}</tbody>
           </table></div>
           {hasHiddenEntries && <p className="collapsed-hint">已显示前 3 条，共 {category.entries.length} 条</p>}
+          {editable && category.entries.length > 1 && <p className="reorder-hint">拖动条目左侧手柄调整顺序，也可使用行尾的上移/下移按钮</p>}
         </section>})}
       </div>}
     </main>

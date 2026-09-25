@@ -49,10 +49,16 @@ tbody tr:hover { background: rgba(255,255,255,.025); }
 .cell-input, .form-stack input, .snapshot-create input { width: 100%; border: 1px solid rgba(34,211,238,.45); border-radius: 8px; color: #ecfeff; background: #0f172a; padding: 9px; }
 .cell-input.multiline { min-height: 112px; resize: vertical; }
 .row-actions { text-align: center; vertical-align: middle; }
+.row-action-buttons { display: flex; align-items: center; justify-content: center; flex-wrap: wrap; gap: 1px; }
 .row-actions button, .icon-button { border: 0; background: transparent; padding: 7px; color: #64748b; border-radius: 7px; cursor: pointer; }
+.row-actions .reorder-handle { cursor: grab; touch-action: none; }
+.row-actions .reorder-handle:active { cursor: grabbing; }
+.row-actions button:disabled { cursor: not-allowed; opacity: .3; }
 .row-actions button:hover { color: #22d3ee; background: rgba(34,211,238,.1); }
 .row-actions button.danger-button:hover { color: #f87171; background: rgba(248,113,113,.1); }
 .row-actions small { display: block; margin-top: 6px; color: #64748b; font-size: .62rem; }
+tbody tr.drop-target { outline: 2px dashed rgba(34,211,238,.55); outline-offset: -2px; background: rgba(8,145,178,.08); }
+.reorder-hint { margin: 8px 10px 0; color: #64748b; font-size: .7rem; text-align: right; }
 .modal-backdrop { position: fixed; z-index: 20; inset: 0; display: grid; place-items: center; padding: 20px; background: rgba(2,6,23,.8); backdrop-filter: blur(12px); }
 .modal { width: min(480px, 100%); max-height: calc(100vh - 40px); overflow: auto; background: #0f172a; border: 1px solid rgba(34,211,238,.24); border-radius: 16px; box-shadow: 0 30px 100px rgba(0,0,0,.55); }
 .modal-wide { width: min(1040px, 100%); }
